@@ -5,12 +5,16 @@ using System.Text;
 
 namespace ConsoleApplication13
 {
-    public abstract class Burkolo : Mesterember
+    public  class Burkolo : Mesterember
     {
         private string szakterulet;
+        private BurkoloSzakteruletTipus belso;
 
-        public Burkolo(string Nev, string Napidij) : base(Nev, Napidij)
+        
+
+        public Burkolo(string Nev, int Napidij, BurkoloSzakteruletTipus belso) : base(Nev, Napidij)
         {
+            this.belso = belso;
         }
 
         public string Szakterulet
@@ -29,29 +33,31 @@ namespace ConsoleApplication13
             }
         }
 
-        public void OsszesSzabadnap()
+        public int OsszesSzabadnap()
         {
-            throw new System.NotImplementedException();
+            int szamlalo = 0;
+            foreach (bool b in Foglaltnapok)
+                if (b)
+                    szamlalo++;
+            return szamlalo;
         }
 
         public override string MindenAdat()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(Nev);
-            sb.AppendLine(Napidij);
-            sb.AppendLine(szakterulet);
+            StringBuilder sb = new StringBuilder(base.MindenAdat());
+            sb.AppendFormat("Szakterulet:{0}", Szakterulet.ToString());
             return sb.ToString();
            
         }
 
-        public bool  MunkatVallal()
+        public override bool  MunkatVallal(int Nap)
         {
-            for (int i = 0; i < 31; i++)
-                if (Foglaltnapok[i] == true)
-                    return true;
-                else
-                    return false;
-            
+            if(Foglaltnapok[Nap] == true)
+            {
+                Foglaltnapok[Nap] = false;
+                return true;
+            }
+            return false;
         }
     }
 }

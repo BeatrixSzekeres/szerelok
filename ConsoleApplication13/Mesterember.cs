@@ -5,31 +5,29 @@ using System.Text;
 
 namespace ConsoleApplication13
 {
-    public class Mesterember
+    public abstract class Mesterember
     {
-        public string Nev;
-        public string Napidij;
+        private string Nev;
+        private int Napidij;
        public bool[] Foglaltnapok = new bool [31];
 
-        public Mesterember(string Nev, string Napidij)
+        public Mesterember(string Nev, int Napidij)
         {
             throw new System.NotImplementedException();
         }
 
-        public abstract string MindenAdat()
+        public virtual string MindenAdat()
         {
 
-            throw new System.NotImplementedException();
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat("Nev:{0} Napidij: {1}", Nev, Napidij);
+            sb.AppendLine();
+
+            
 
         }
 
-        public bool  MunkatVallal(int Nap)
-        {
-            for (int i = 0; i < 31; i++)
-                if (Foglaltnapok[i-1]  && Foglaltnapok[i+1] == true)
-                    return true;
-                else
-                    return false;
+        public abstract bool MunkatVallal(int Nap);
+        
         }
     }
-}

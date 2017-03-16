@@ -7,33 +7,50 @@ namespace ConsoleApplication13
 {
     public class VizvezetekSzerelo : Mesterember
     {
-        public int Tapasztalat;
+        public int nTapasztalat;
         
 
-        public VizvezetekSzerelo(string Nev, string Napidij) : base(Nev, Napidij)
+        public VizvezetekSzerelo(string Nev, int Napidij, int Tapasztalat) : base(Nev, Napidij)
         {
+            nTapasztalat = Tapasztalat;
         }
 
         public int tapasztalat
         {
             get
             {
-                throw new System.NotImplementedException();
+                return nTapasztalat;
             }
 
             set
             {
+                if (value <= nTapasztalat)
+                    throw new Exception("asd");
+                nTapasztalat = value;
             }
         }
 
         public override string MindenAdat()
         {
-            throw new System.NotImplementedException();
+            StringBuilder sb = new StringBuilder(base.MindenAdat());
+            sb.AppendFormat("Tapasztalat:{0}", nTapasztalat.ToString());
+            return sb.ToString();
         }
 
-        public void MunkatVallal(int HoNapSzam)
+        public override bool MunkatVallal(int Nap)
         {
-            throw new System.NotImplementedException();
+            if (Nap < 1 || Nap > 31)
+                throw new Exception("nincsilyen");
+
+            if (Foglaltnapok[Nap - 1] && Foglaltnapok[Nap] && Foglaltnapok[Nap + 1])
+            {
+                Foglaltnapok[Nap - 1] = false;
+                Foglaltnapok[Nap] = false;
+                Foglaltnapok[Nap + 1] = false;
+
+                return false;
+            }
+            return true;
         }
     }
 }
